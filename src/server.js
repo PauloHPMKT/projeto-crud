@@ -1,7 +1,19 @@
+//modulos instalados 
 const express = require('express')
 const path = require('path')
 
+
+//modulo importados
+const db = require('./data-base')
+const routes = require('./routes')
+
 const app = express()
+
+
+//conexão com o banco de dados
+db.connect()
+
+
 
 //definindo template engine
 app.set('view engine', 'ejs')
@@ -15,11 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 
 //definindo rotas
-app.get('/', (req, res) => {
-    res.render('index', {
-        title: "Titulo teste"
-    })
-})
+app.use('/', routes)
 
 //404 error (not found)
 app.use((req, res) => res.send('Página não encontrada'))
